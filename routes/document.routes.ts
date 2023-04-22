@@ -6,7 +6,7 @@ const router = new Router()
 router.post('/documents', documentController.createDocument)
 router.get('/documents', documentController.getDocuments)
 router.get('/documents/:id', documentController.getDocument)
-router.put('/documents/:id', documentController.updateDocument)
+router.put('/documents', documentController.updateDocument)
 router.delete('/documents/:id', documentController.deleteDocument)
 
 export default router;
