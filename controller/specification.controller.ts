@@ -1,4 +1,4 @@
-import db from '../db'
+import db from '../db';
 
 class SpecificationController {
     async createSpecification(req, res) {
@@ -30,4 +30,4 @@ class SpecificationController {
     }
 }
 
-export default new SpecificationController()
+export default new SpecificationController();
