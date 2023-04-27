@@ -2,27 +2,36 @@
   <div
       class="documents"
   >
-    <input
-        class="search-input"
-        type="text"
-        v-model="searchQuery"
-    />
-    <select v-model="selectedSort">
-      <option value="date">Сортировать по дате</option>
-      <option value="title">Сортировать по названию</option>
-    </select>
+    <div class="documents-header">
+      <div class="documents-search">
+        <input
+            class="search-input"
+            type="text"
+            v-model="searchQuery"
+            placeholder="Введите поисковый запрос"
+        />
+        <simple-button class="search-button icon-search">Найти</simple-button>
+      </div>
+<!--      <select v-model="selectedSort">-->
+<!--        <option value="date">Сортировать по дате</option>-->
+<!--        <option value="title">Сортировать по названию</option>-->
+<!--      </select>-->
+    </div>
     <div
         class="documents-list"
         v-if="isPostLoading"
     >
-      <document
-          v-for="document in searchedAndSortedDocuments"
-          :key="document.id"
-          :document="document"
-      />
+      <h3 class="lists-title">Технические задания</h3>
       <empty-list
-        v-if="!searchedAndSortedDocuments.length"
+          v-if="!searchedAndSortedDocuments.length"
       />
+      <div class="list-main">
+        <document
+            v-for="document in searchedAndSortedDocuments"
+            :key="document.id"
+            :document="document"
+        />
+      </div>
       <document-form
           @addDocument="addDocument"
       />
@@ -42,10 +51,11 @@ import Loading from '@/components/Loading'
 import DocumentForm from '@/components/DocumentForm'
 import axios from 'axios'
 import EmptyList from '@/components/EmptyList'
+import SimpleButton from '@/components/UI/SimpleButton'
 
 export default {
   name: 'DocumentLists',
-  components: { EmptyList, DocumentForm, Loading, Document },
+  components: { SimpleButton, EmptyList, DocumentForm, Loading, Document },
   setup () {
     const { documents, totalPages, isPostLoading } = useDocuments()
     const { selectedSort, sortedDocuments } = useSortedDocuments(documents)
@@ -69,6 +79,36 @@ export default {
 }
 </script>
 
-<style scoped>
 
+<style scoped>
+.documents-header {
+  margin-top: 70px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  gap: 20px;
+}
+.search-input {
+  width: 285px;
+  height: 48px;
+  border: 1px solid #D4D4D4;
+}
+.search-input::placeholder {
+  padding: 16px 14px;
+}
+.search-button {
+  background: #4951EC;
+  color: #FFF;
+  border: none;
+  border-radius: 0;
+}
+.documents-list {
+  margin-top: 40px;
+}
+.lists-title {
+  margin-bottom: 100px;
+  font-size: 40px;
+  line-height: 110%;
+  color: #272727;
+}
 </style>
