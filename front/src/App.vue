@@ -6,7 +6,9 @@
       <main-page
       />
     </main>
-    <footer class="footer"></footer>
+    <footer class="footer">
+      <span class="company">© 2023, Название компании</span>
+    </footer>
   </div>
 </template>
 
@@ -43,6 +45,9 @@ export default {
   font-weight: 400;
   font-size: 14px;
 }
+body {
+  height: 100%;
+}
 button {
   padding: 0;
   border: none;
@@ -52,6 +57,18 @@ button {
 }
 .wrapper {
   margin: 0 auto;
+  min-height: 100%;
   width: 1096px;
+  display: flex;
+  flex-direction: column;
+}
+.main {
+  flex: 1 1 auto;
+}
+.footer {
+  height: 110px;
+  display: grid;
+  justify-content: center;
+  align-content: center;
 }
 </style>

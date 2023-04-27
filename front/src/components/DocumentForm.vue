@@ -3,36 +3,32 @@
       @submit.prevent
       class="document-form"
   >
-    <input
-        type="text"
-        v-model="title"
+    <simple-button
+        class="add-document icon-add"
     >
-    <button
-        class="add-document"
-        @click="addDocument"
-    >
-      Создать документ
-    </button>
+      Создать техническое задание
+    </simple-button>
   </form>
 </template>
 
 <script>
+import SimpleButton from '@/components/UI/SimpleButton'
 export default {
   name: 'DocumentForm',
-  data() {
-    return {
-      title: '',
-    }
-  },
-  methods: {
-    addDocument() {
-      this.$emit('addDocument', this.title);
-      this.title = '';
-    },
-  },
+  components: { SimpleButton },
 }
 </script>
 
 <style scoped>
+.document-form {
+  margin-top: 25px;
 
+  display: flex;
+  justify-content: center;
+}
+.add-document {
+  width: 425px;
+  background: #4951EC;
+  color: #FFF;
+}
 </style>
