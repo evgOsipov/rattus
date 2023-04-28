@@ -1,6 +1,6 @@
 <template>
   <button
-    class="btn"
+      class="btn"
   >
     <slot></slot>
   </button>
@@ -8,21 +8,16 @@
 
 <script>
 export default {
-  name: 'SimpleButton'
+  name: 'ShortButton'
 }
 </script>
 
 <style scoped>
 .btn {
+  width: 48px;
   height: 48px;
-  width: 140px;
-  font-weight: 500;
-  font-size: 13px;
-
   border: 1px solid #000;
   border-radius: 8px;
-  cursor: pointer;
-
-  background: #fff;
+  color: #000;
 }
 </style>

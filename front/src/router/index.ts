@@ -1,11 +1,19 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import MainPage from '@/pages/MainPage.vue'
+import EditPage from '@/pages/EditPage.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'home',
     component: MainPage
+  },
+  {
+    path: '/edit',
+    component: EditPage,
+  },
+  {
+    path: '/edit/:id',
+    component: EditPage
   }
 ]
 

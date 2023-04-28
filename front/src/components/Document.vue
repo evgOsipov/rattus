@@ -3,14 +3,22 @@
     <div class="document-date">{{ this.date }}</div>
     <div class="document-title">{{ document.title }}</div>
     <div class="document-controls">
-      <simple-button class="edit-button icon-edit">Редактировать</simple-button>
-      <simple-button class="create-button">
+      <simple-button class="control-btn create-button">
         <i class="icon-create-report"/>
-        <div class="btn-text">
+        <span class="btn-text report-btn-text">
           Перейти к проверке ТЗ
-        </div>
+        </span>
       </simple-button>
-      <simple-button class="delete-button icon-delete">Удалить</simple-button>
+      <simple-button class="control-btn edit-button" @click="$router.push(`/edit/${document.id}`)">
+        <i class="icon-edit"/>
+        <span class="btn-text">Редактировать</span>
+      </simple-button>
+      <simple-button class="control-btn delete-button">
+        <i class="icon-delete"/>
+        <span class="btn-text">
+          Удалить
+        </span>
+      </simple-button>
     </div>
   </div>
 </template>
@@ -52,23 +60,44 @@ export default {
   gap: 5px;
   justify-self: end;
 }
+.control-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.control-btn i {
+  padding-right: 6px;
+  font-size: 24px;
+}
+.icon-create-report {
+  padding-left: 10px;
+}
 .edit-button {
   color: #0085FF;
+  border-color: #0085FF;
+}
+.edit-button:active {
+  background: #0085FF;
+  color: #FFF;
+  border-color: #000;
 }
 .create-button {
-  display: flex;
   background: #38AE00;
   color: #FFFEFE;
 }
-.create-button i {
-  align-self: center;
-  justify-self: center;
+.create-button:active {
+  background: #FFF;
+  color: #38AE00;
 }
 .delete-button{
   background: #FF0000;
   color: #FFF;
 }
-.btn-text {
-  font-size: 13px;
+.delete-button:active{
+  background: #FFF;
+  color: #FF0000;
+}
+.report-btn-text {
+  margin-right: 10px;
 }
 </style>

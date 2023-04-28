@@ -1,6 +1,8 @@
 <template>
   <header class="header">
-    <img class="rattus-logo" src="../../public/img/logo.png" alt="rattus logo">
+    <router-link to="/">
+      <img class="rattus-logo" src="../../public/img/logo.png" alt="rattus logo">
+    </router-link>
   </header>
 </template>
 

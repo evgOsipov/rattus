@@ -3,8 +3,7 @@
     <app-header
     />
     <main class="main">
-      <main-page
-      />
+      <router-view></router-view>
     </main>
     <footer class="footer">
       <span class="company">© 2023, Название компании</span>
@@ -40,13 +39,14 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
-  font-family: Inter;
-  font-weight: 400;
-  font-size: 14px;
 }
 body {
   height: 100%;
+}
+a:active,
+a:hover,
+a {
+  text-decoration: none;
 }
 button {
   padding: 0;
@@ -61,6 +61,10 @@ button {
   width: 1096px;
   display: flex;
   flex-direction: column;
+
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 14px;
 }
 .main {
   flex: 1 1 auto;

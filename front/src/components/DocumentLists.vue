@@ -3,6 +3,10 @@
       class="documents"
   >
     <div class="documents-header">
+      <div class="switcher">
+        <simple-button class="switch-btn documents-switch switch-btn__active">Технические задания</simple-button>
+        <simple-button class="switch-btn reports-switch">Протоколы</simple-button>
+      </div>
       <div class="documents-search">
         <input
             class="search-input"
@@ -10,7 +14,7 @@
             v-model="searchQuery"
             placeholder="Введите поисковый запрос"
         />
-        <simple-button class="search-button icon-search">Найти</simple-button>
+        <simple-button class="search-button"><i class="icon-search"/>Найти</simple-button>
       </div>
 <!--      <select v-model="selectedSort">-->
 <!--        <option value="date">Сортировать по дате</option>-->
@@ -91,28 +95,55 @@ export default {
 
 <style scoped>
 .documents-header {
-  margin-top: 70px;
+  margin-top: 25px;
   display: flex;
-  align-content: center;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 20px;
+}
+.switcher {
+  display: flex;
+}
+.switch-btn {
+  width: 213px;
+  border: 1px solid #D4D4D4;
+  border-radius: 0;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  opacity: 0.5;
+}
+.switch-btn__active {
+  opacity: 1;
+  box-shadow: none;
+}
+.reports-switch {
+  border-left: none;
+}
+.documents-search {
+  margin-top: 50px;
+  display: flex;
 }
 .search-input {
+  padding-left: 16px;
   width: 285px;
   height: 48px;
   border: 1px solid #D4D4D4;
 }
-.search-input::placeholder {
-  padding: 16px 14px;
-}
 .search-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #4951EC;
   color: #FFF;
   border: none;
   border-radius: 0;
 }
+.search-button:active {
+  background: #FFF;
+  color: #4951EC;
+  border: 1px solid #000;
+}
 .documents-list {
-  margin-top: 40px;
+  margin-top: 37px;
 }
 .lists-title {
   margin-bottom: 70px;
@@ -142,5 +173,12 @@ export default {
   text-decoration-line: underline;
   color: #4951EC;
   opacity: 0.5;
+}
+.icon-search {
+  font-size: 24px;
+  margin-right: 6px;
+  padding-top: 4px;
+  align-self: center;
+  justify-self: center;
 }
 </style>
