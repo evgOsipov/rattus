@@ -1,5 +1,5 @@
 <template>
-<document-lists/>
+  <document-lists/>
 </template>
 
 <script>

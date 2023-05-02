@@ -1,12 +1,16 @@
-import axios from 'axios';
+import moment from "moment";
 import { onMounted, Ref, ref } from 'vue';
 import { IDocument } from '@/interfaces/IDocument';
-import { getDocuments } from '@/api/api'
+import {deleteDocument, getDocuments} from '@/api/api'
 
 export function useDocuments() {
     const documents: Ref<IDocument[]> = ref([]);
     const totalPages: Ref<number> = ref(0);
-    const isPostLoading: Ref<boolean> = ref(false);
+    const isPostLoading: Ref<boolean> = ref(true);
+    const removeDocument = async (id: string) => {
+        await deleteDocument(id);
+        documents.value = documents.value.filter(doc => doc.id !== id)
+    }
     const fetching = async () => {
         try {
             documents.value = await getDocuments();
@@ -14,11 +18,11 @@ export function useDocuments() {
         } catch (e) {
             console.log(e)
         } finally {
-            isPostLoading.value = true;
+            isPostLoading.value = false;
         }
     };
     onMounted(fetching);
     return {
-        documents, totalPages, isPostLoading,
+        documents, totalPages, isPostLoading, removeDocument,
     }
 }

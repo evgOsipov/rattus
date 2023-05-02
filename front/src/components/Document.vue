@@ -1,7 +1,7 @@
 <template>
   <div class="document-item">
-    <div class="document-date">{{ this.date }}</div>
-    <div class="document-title">{{ document.title }}</div>
+    <div class="document-date">{{ date }}</div>
+    <div class="document-title">{{ title }}</div>
     <div class="document-controls">
       <simple-button class="control-btn create-button">
         <i class="icon-create-report"/>
@@ -13,7 +13,7 @@
         <i class="icon-edit"/>
         <span class="btn-text">Редактировать</span>
       </simple-button>
-      <simple-button class="control-btn delete-button">
+      <simple-button class="control-btn delete-button" @click="removeDocument">
         <i class="icon-delete"/>
         <span class="btn-text">
           Удалить
@@ -25,7 +25,8 @@
 
 <script>
 import SimpleButton from '@/components/UI/SimpleButton'
-import moment from 'moment'
+import { useDocument } from '@/hooks/useDocument'
+import { toRefs } from 'vue'
 export default {
   name: 'Document',
   components: { SimpleButton },
@@ -33,11 +34,19 @@ export default {
     document: {
       type: Object,
       required: true,
-    }
+    },
   },
-  data() {
+  emits: ['removeDocument'],
+  setup(props, context) {
+    const { document } = toRefs(props)
+    const { date, title } = useDocument(document);
+    const removeDocument = () => {
+      context.emit('removeDocument', document.value.id);
+    }
     return {
-      date: moment(Number(this.document.date)).format('DD.MM.YYYY, hh:mm'),
+      date,
+      title,
+      removeDocument,
     }
   },
 }

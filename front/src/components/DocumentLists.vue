@@ -23,7 +23,7 @@
     </div>
     <div
         class="documents-list"
-        v-if="isPostLoading"
+        v-if="!isPostLoading"
     >
       <h3 class="lists-title">Технические задания</h3>
       <div class="lists-headers">
@@ -37,10 +37,9 @@
           v-for="document in searchedAndSortedDocuments"
           :key="document.id"
           :document="document"
+          @removeDocument="removeDocument"
       />
-      <document-form
-          @addDocument="addDocument"
-      />
+      <document-form />
       <div class="documents-pagination">
         <div class="page">В начало</div>
         <div class="page">Назад</div>
@@ -70,25 +69,19 @@ export default {
   name: 'DocumentLists',
   components: { SimpleButton, EmptyList, DocumentForm, Loading, Document },
   setup () {
-    const { documents, totalPages, isPostLoading } = useDocuments()
+    const { documents, totalPages, isPostLoading, removeDocument } = useDocuments()
     const { selectedSort, sortedDocuments } = useSortedDocuments(documents)
     const { searchQuery, searchedAndSortedDocuments } = useSearchedAndSortedDocuments(sortedDocuments)
-
     return {
       documents,
       totalPages,
       isPostLoading,
+      removeDocument,
       selectedSort,
       searchQuery,
-      searchedAndSortedDocuments
+      searchedAndSortedDocuments,
     }
   },
-  methods: {
-    async addDocument (title) {
-      const newDocument = await axios.post('http://localhost:8080/api/documents', { title });
-      this.documents.push(newDocument.data);
-    }
-  }
 }
 </script>
 
