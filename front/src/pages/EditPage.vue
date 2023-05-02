@@ -1,31 +1,36 @@
 <template>
   <div class="create">
     <div class="create-header">
-      <div class="block-title" v-if="!isEdit">
-        <h3 class="document-title">Название документа</h3>
-        <short-button>
+      <div class="block-title" v-if="!isDocumentTitleEditing">
+        <h3 class="document-title">{{ document.title }}</h3>
+        <short-button @click="editDocumentTitle">
           <i class="icon-edit"/>
         </short-button>
       </div>
       <form v-else @submit.prevent class="title-form">
         <input type="text" class="create-title" placeholder="Введите название документа" v-model="document.title">
-        <simple-button class="add-title"><i class="icon-save"/>Сохранить</simple-button>
+        <simple-button class="add-title" @click="saveDocumentTitle"><i class="icon-save"/>Сохранить</simple-button>
       </form>
-      <simple-button class="create-exit">Выйти</simple-button>
+      <router-link to="/">
+        <simple-button class="create-exit">Выйти</simple-button>
+      </router-link>
     </div>
 
     <div class="create-specifications">
       <h3 class="block-title">Требования технического задания</h3>
       <div class="specification-name">Требование</div>
-      <div class="specifications-list">
-        <div class="specification">Проверить адрес ул. Полярной звезды, дом 10, корпус 18, парадная 12</div>
+      <div class="specifications-block" v-if="isSpecificationsLoading">
+        <empty-list class="specification" v-if="!specifications.length"/>
+        <div class="specifications-list" v-for="specification in specifications">
+          <div class="specification">{{specification.title}}</div>
+        </div>
+        <form @submit.prevent class="title-form title-form__specifications">
+          <input type="text" class="create-title" placeholder="Ввод нового требования" v-model="newSpecificationTitle">
+          <simple-button class="add-title" @click="saveSpecification"><i class="icon-save"/>Сохранить</simple-button>
+        </form>
       </div>
-      <form @submit.prevent class="title-form title-form__specifications">
-        <input type="text" class="create-title" placeholder="Ввод нового требования">
-        <simple-button class="add-title"><i class="icon-save"/>Сохранить</simple-button>
-      </form>
     </div>
-    <simple-button class="save-document">Сохранить техническое задание</simple-button>
+    <simple-button class="save-document" @click="saveNewDocument">Сохранить техническое задание</simple-button>
   </div>
 </template>
 
@@ -35,24 +40,42 @@ import SimpleButton from '@/components/UI/SimpleButton'
 import ShortButton from '@/components/UI/ShortButton'
 import { useDocuments } from '@/hooks/useDocumentEdit'
 import { useSpecifications } from '@/hooks/useSpecifications'
+import EmptyList from '@/components/EmptyList'
 export default {
   name: 'EditPage',
-  components: { SimpleButton, ShortButton },
-  data() {
-    return {
-      isEdit: false,
-    }
-  },
-  setup(props) {
+  components: { EmptyList, SimpleButton, ShortButton },
+  setup() {
     const route = useRoute();
-    const { document, isDocumentLoading } = useDocuments(route);
-    const { specifications, isSpecificationsLoading } = useSpecifications(route);
-
+    const {
+      document,
+      isDocumentLoading,
+      isDocumentTitleEditing,
+      editDocumentTitle,
+      saveDocumentTitle,
+      saveDocument,
+    } = useDocuments(route);
+    const {
+      specifications,
+      isSpecificationsLoading,
+      newSpecificationTitle,
+      saveSpecification,
+      saveSpecifications,
+    } = useSpecifications(route);
+    const saveNewDocument = async () => {
+      await saveDocument();
+      await saveSpecifications();
+    }
     return {
       document,
       isDocumentLoading,
+      isDocumentTitleEditing,
+      editDocumentTitle,
+      saveDocumentTitle,
       specifications,
       isSpecificationsLoading,
+      newSpecificationTitle,
+      saveSpecification,
+      saveNewDocument,
     }
   },
 }
