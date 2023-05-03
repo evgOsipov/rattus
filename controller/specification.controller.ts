@@ -2,15 +2,20 @@ import db from '../db';
 
 class SpecificationController {
     async createSpecification(req, res) {
-        const { title, documentId } = req.body;
+        const { title, documentId, reportId } = req.body;
         const status = 'FAIL';
         const answer = '';
-        const newSpecification = await db.query(`INSERT INTO specifications (title, status, answer, document_id) values ($1, $2, $3, $4) RETURNING *`, [title, status, answer, documentId]);
+        const newSpecification = await db.query(`INSERT INTO specifications (title, status, answer, document_id, report_id) values ($1, $2, $3, $4, $5) RETURNING *`, [title, status, answer, documentId, reportId]);
         res.json(newSpecification.rows[0]);
     }
     async getSpecificationsByDocument(req, res) {
         const id = req.query.id;
         const specifications = await db.query('SELECT * FROM specifications WHERE document_id = $1', [id]);
+        res.json(specifications.rows);
+    }
+    async getSpecificationsByReport(req, res) {
+        const id = req.query.id;
+        const specifications = await db.query('SELECT * FROM specifications WHERE report_id = $1', [id]);
         res.json(specifications.rows);
     }
     async getSpecification(req, res) {

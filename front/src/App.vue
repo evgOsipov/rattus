@@ -47,6 +47,7 @@ a:active,
 a:hover,
 a {
   text-decoration: none;
+  color: inherit;
 }
 button {
   padding: 0;

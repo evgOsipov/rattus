@@ -1,7 +1,8 @@
 export interface ISpecification {
     id: string;
     title: string;
-    status?: string;
-    answer?: string;
-    document_id?: string;
+    status: string;
+    answer: string;
+    document_id: string;
+    report_id: string;
 }

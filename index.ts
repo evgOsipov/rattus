@@ -1,5 +1,6 @@
 import express from 'express';
 import documentRouter from './routes/document.routes'
+import reportRouter from './routes/report.routes'
 import specificationRouter from './routes/specification.routes'
 
 const PORT = process.env.PORT || 8080;
@@ -17,5 +18,6 @@ app.use(function(req, res, next) {
 app.use(express.json())
 app.use('/api', documentRouter)
 app.use('/api', specificationRouter)
+app.use('/api', reportRouter)
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}...`))

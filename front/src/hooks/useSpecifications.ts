@@ -1,8 +1,7 @@
-import axios from 'axios';
 import { onMounted, Ref, ref } from 'vue';
 import { ISpecification } from "@/interfaces/ISpecification";
 import { RouteLocation } from "vue-router";
-import {createSpecification, getSpecificationsByDocuments} from "@/api/api";
+import {createSpecification, getSpecificationsByDocument} from "@/api/api";
 
 export function useSpecifications(route: RouteLocation) {
     const id = route.params.id;
@@ -16,7 +15,7 @@ export function useSpecifications(route: RouteLocation) {
     if (id) {
         const fetching = async () => {
             try {
-                specifications.value = await getSpecificationsByDocuments(id as string);
+                specifications.value = await getSpecificationsByDocument(id as string);
             } catch (e) {
                 console.log(e)
             } finally {
