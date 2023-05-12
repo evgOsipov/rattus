@@ -3,7 +3,7 @@
     <div class="document-date">{{ date }}</div>
     <div class="document-title">{{ title }}</div>
     <div class="document-controls">
-      <simple-button class="control-btn create-button">
+      <simple-button class="control-btn create-button" @click="$router.push(`/report/${document.id}`)">
         <i class="icon-create-report"/>
         <span class="btn-text report-btn-text">
           Перейти к проверке ТЗ
