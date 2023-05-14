@@ -1,7 +1,7 @@
 <template>
   <main-header/>
   <document-lists
-      v-if="isPageLoading"
+      v-if="!isPageLoading"
       :list="searchedAndSortedDocuments"
       :removeList="removeDocument"
   />
@@ -25,8 +25,7 @@ export default {
   name: 'MainPage',
   components: { Pagination, MainHeader, DocumentLists, Loading },
   setup () {
-    const route = useRoute()
-    const { documents, totalPages, isPageLoading, removeDocument } = useDocuments(route.path)
+    const { documents, totalPages, isPageLoading, removeDocument } = useDocuments()
     const { selectedSort, sortedDocuments } = useSortedDocuments(documents)
     const { searchQuery, searchedAndSortedDocuments } = useSearchedAndSortedDocuments(sortedDocuments)
     return {
