@@ -1,5 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
-import { nextTick, onMounted, Ref, ref } from 'vue'
+import { onMounted, Ref, ref } from 'vue'
 import { IDocument } from '@/interfaces/IDocument';
 import { RouteLocation } from "vue-router";
 import { createDocument, getDocument, updateDocument } from '@/api/api'
