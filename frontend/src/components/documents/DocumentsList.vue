@@ -12,10 +12,10 @@
         <div class="documents-titles">Наименование</div>
       </div>
       <empty-list
-          v-if="!searchedAndSortedDocuments.length"
+          v-if="!searchedAndSortedList.length"
       />
       <document
-          v-for="document in searchedAndSortedDocuments"
+          v-for="document in searchedAndSortedList"
           :key="document.id"
           :document="document"
           @removeDocument="removeDocument"
@@ -29,22 +29,22 @@
 </template>
 
 <script>
-import Document from '@/components/Document'
+import Document from '@/components/documents/Document'
 import Loading from '@/components/Loading'
-import DocumentForm from '@/components/DocumentForm'
+import DocumentForm from '@/components/documents/DocumentForm'
 import EmptyList from '@/components/EmptyList'
 import SimpleButton from '@/components/UI/SimpleButton'
 import { useDocuments } from '@/hooks/documents/useDocuments'
-import { useSortedDocuments } from '@/hooks/useSortedDocuments'
-import { useSearchedAndSortedDocuments } from '@/hooks/useSearchedAndSortedDocuments'
+import { useSortedList } from '@/hooks/useSortedList'
+import { useSearchedAndSortedList } from '@/hooks/useSearchedAndSortedList'
 
 export default {
   name: 'DocumentLists',
   components: { SimpleButton, EmptyList, DocumentForm, Loading, Document },
   setup () {
     const { documents, totalPages, isPageLoading, removeDocument } = useDocuments()
-    const { selectedSort, sortedDocuments } = useSortedDocuments(documents)
-    const { searchQuery, searchedAndSortedDocuments } = useSearchedAndSortedDocuments(sortedDocuments)
+    const { selectedSort, sortedList } = useSortedList(documents)
+    const { searchQuery, searchedAndSortedList } = useSearchedAndSortedList(sortedList)
     return {
       documents,
       totalPages,
@@ -52,7 +52,7 @@ export default {
       removeDocument,
       selectedSort,
       searchQuery,
-      searchedAndSortedDocuments
+      searchedAndSortedList
     }
   }
 }

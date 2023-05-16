@@ -1,11 +1,10 @@
 import { onMounted, Ref, ref } from 'vue'
 import { IDocument } from '@/interfaces/IDocument'
 import { deleteDocument, getDocuments } from '@/api/api'
-import { IReport } from '@/interfaces/IReport'
 
 export function useDocuments () {
     const DOCUMENTS_ON_PAGE = 5;
-    const documents: Ref<Array<IDocument | IReport>> = ref([])
+    const documents: Ref<Array<IDocument>> = ref([])
     const totalPages: Ref<number> = ref(0)
     const isPageLoading: Ref<boolean> = ref(true)
     const removeDocument = async (id: string) => {

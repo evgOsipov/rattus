@@ -1,19 +1,18 @@
 <template>
   <main-header/>
-  <document-lists
-  />
+  <documents-list/>
   <pagination/>
 </template>
 
 <script>
-import DocumentLists from '@/components/DocumentLists'
+import DocumentsList from '@/components/documents/DocumentsList'
 import MainHeader from '@/components/MainHeader'
 import Pagination from '@/components/Pagination'
 import Loading from '@/components/Loading'
 
 export default {
   name: 'MainPage',
-  components: { Pagination, MainHeader, DocumentLists, Loading },
+  components: { Pagination, MainHeader, DocumentsList, Loading },
 }
 </script>
 

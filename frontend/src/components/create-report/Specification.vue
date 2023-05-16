@@ -10,7 +10,6 @@
     <div class="list-body__comment">
       <textarea
           class="comment-input"
-          type="text"
           placeholder="Введите новый комментарий (след. строчка)"
           v-model="comment"
       ></textarea>
