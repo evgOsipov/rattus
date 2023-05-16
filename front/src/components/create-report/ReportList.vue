@@ -1,5 +1,6 @@
 <template>
-  <div class="report">
+  <loading v-if="isLoading"/>
+  <div class="report" v-else>
     <div class="report-header">
       <h3 class="report-title">Протокол проверки {{document.title}}</h3>
       <simple-button class="report-exit" @click="$router.push('/')">Выйти</simple-button>
@@ -15,8 +16,8 @@
         <div class="list-header__status">Статус</div>
         <div class="list-header__comment">Комментарий</div>
       </div>
-      <loading v-if="isLoading"/>
-      <empty-list v-else-if="isEmpty"/>
+
+      <empty-list v-if="isEmpty"/>
       <div v-else>
         <specification
             class="report-list__body"

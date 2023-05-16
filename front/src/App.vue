@@ -20,25 +20,14 @@ export default {
 </script>
 
 <style>
-@font-face {
-  font-weight: 400;
-  font-family: Inter;
-  src: url("../public/fonts/Inter-Regular.ttf");
-}
-@font-face {
-  font-weight: 500;
-  font-family: Inter;
-  src: url("../public/fonts/Inter-Medium.ttf");
-}
-@font-face {
-  font-weight: 600;
-  font-family: Inter;
-  src: url("../public/fonts/Inter-SemiBold.ttf");
-}
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+h1, h2, h3, h4, h5, h6, p {
+  font-size: inherit;
+  font-weight: inherit;
 }
 body {
   height: 100%;
