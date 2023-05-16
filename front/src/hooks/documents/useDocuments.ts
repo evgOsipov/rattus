@@ -1,10 +1,10 @@
 import { onMounted, Ref, ref } from 'vue'
 import { IDocument } from '@/interfaces/IDocument'
-import { deleteDocument, deleteReport, getDocuments, getReports } from '@/api/api'
+import { deleteDocument, getDocuments } from '@/api/api'
 import { IReport } from '@/interfaces/IReport'
-import { Routes } from '@/router'
 
 export function useDocuments () {
+    const DOCUMENTS_ON_PAGE = 5;
     const documents: Ref<Array<IDocument | IReport>> = ref([])
     const totalPages: Ref<number> = ref(0)
     const isPageLoading: Ref<boolean> = ref(true)
@@ -15,7 +15,7 @@ export function useDocuments () {
     const fetching = async () => {
         try {
             documents.value = await getDocuments();
-            totalPages.value = 1
+            totalPages.value = documents.value.length / DOCUMENTS_ON_PAGE;
         } catch (e) {
             console.log(e)
         } finally {

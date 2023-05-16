@@ -25,7 +25,7 @@
 
 <script>
 import SimpleButton from '@/components/UI/SimpleButton'
-import { useDocument } from '@/hooks/useDocument'
+import { useDocument } from '@/hooks/documents/useDocument'
 import { toRefs } from 'vue'
 export default {
   name: 'Document',

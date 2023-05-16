@@ -4,6 +4,7 @@
   >
     <div
         class="documents-list"
+        v-if="!isPageLoading"
     >
       <h3 class="lists-title">Технические задания</h3>
       <div class="lists-headers">
@@ -11,16 +12,19 @@
         <div class="documents-titles">Наименование</div>
       </div>
       <empty-list
-          v-if="!list.length"
+          v-if="!searchedAndSortedDocuments.length"
       />
       <document
-          v-for="document in list"
+          v-for="document in searchedAndSortedDocuments"
           :key="document.id"
           :document="document"
-          @removeDocument="removeList"
+          @removeDocument="removeDocument"
       />
       <document-form />
     </div>
+    <loading
+        v-else
+    />
   </div>
 </template>
 
@@ -30,26 +34,25 @@ import Loading from '@/components/Loading'
 import DocumentForm from '@/components/DocumentForm'
 import EmptyList from '@/components/EmptyList'
 import SimpleButton from '@/components/UI/SimpleButton'
+import { useDocuments } from '@/hooks/documents/useDocuments'
+import { useSortedDocuments } from '@/hooks/useSortedDocuments'
+import { useSearchedAndSortedDocuments } from '@/hooks/useSearchedAndSortedDocuments'
 
 export default {
   name: 'DocumentLists',
   components: { SimpleButton, EmptyList, DocumentForm, Loading, Document },
-  props: {
-    list: {
-      type: Object,
-      required: true,
-    },
-    removeList: {
-      type: Function,
-      required: true,
-    }
-  },
-  setup(props) {
-    const list = props.list;
-    const removeList = props.removeList;
+  setup () {
+    const { documents, totalPages, isPageLoading, removeDocument } = useDocuments()
+    const { selectedSort, sortedDocuments } = useSortedDocuments(documents)
+    const { searchQuery, searchedAndSortedDocuments } = useSearchedAndSortedDocuments(sortedDocuments)
     return {
-      list,
-      removeList,
+      documents,
+      totalPages,
+      isPageLoading,
+      removeDocument,
+      selectedSort,
+      searchQuery,
+      searchedAndSortedDocuments
     }
   }
 }
