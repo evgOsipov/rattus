@@ -13,6 +13,7 @@
       </div>
       <empty-list
           v-if="!searchedAndSortedList.length"
+          class="empty-list"
       />
       <document
           v-for="document in searchedAndSortedList"
@@ -80,5 +81,9 @@ export default {
 }
 .documents-titles {
   padding-left: 25px;
+}
+.empty-list {
+  padding: 15px 25px;
+  border-bottom: 1px solid #D4D4D4;
 }
 </style>

@@ -1,18 +1,19 @@
 <template>
   <div
-      class="documents"
+      class="reports"
   >
     <div
-        class="documents-list"
+        class="reports-list"
         v-if="!isPageLoading"
     >
       <h3 class="lists-title">Протоколы</h3>
       <div class="lists-headers">
         <div class="datetime">Дата создания</div>
-        <div class="documents-titles">Наименование</div>
+        <div class="reports-titles">Наименование</div>
       </div>
       <empty-list
           v-if="!searchedAndSortedList.length"
+          class="empty-list"
       />
       <report-item
           v-for="report in searchedAndSortedList"
@@ -57,7 +58,7 @@ export default {
 
 
 <style scoped>
-.documents-list {
+.reports-list {
   margin-top: 37px;
 }
 .lists-title {
@@ -75,7 +76,11 @@ export default {
   line-height: 140%;
   border-bottom: 1px solid #D4D4D4;
 }
-.documents-titles {
+.reports-titles {
   padding-left: 25px;
+}
+.empty-list {
+  padding: 15px 25px;
+  border-bottom: 1px solid #D4D4D4;
 }
 </style>

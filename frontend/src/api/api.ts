@@ -1,10 +1,10 @@
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios';
 
-import { IDocument } from '@/interfaces/IDocument'
+import { IDocument } from '@/interfaces/IDocument';
 import { ISpecification } from "@/interfaces/ISpecification";
-import { IReport } from '@/interfaces/IReport'
+import { IReport } from '@/interfaces/IReport';
 
-const SERVER_URL = 'http://localhost:3333/api';
+const SERVER_URL = process.env.VUE_APP_SERVER;
 
 const api = axios.create({
     baseURL: SERVER_URL,
