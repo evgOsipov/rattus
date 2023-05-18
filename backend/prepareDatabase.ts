@@ -32,14 +32,14 @@ const createTablesIfNotExists = async () => {
         `create TABLE IF NOT EXISTS "documents"
          (
              id    SERIAL PRIMARY KEY,
-             title VARCHAR(255),
+             title VARCHAR,
              date  BIGINT
          );`,
         `create TABLE IF NOT EXISTS "reports"
          (
              id          SERIAL PRIMARY KEY,
              date        BIGINT,
-             title       VARCHAR(255),
+             title       VARCHAR,
              document_id INTEGER,
              FOREIGN KEY (document_id) REFERENCES documents (id)
          );`,
