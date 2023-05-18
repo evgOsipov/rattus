@@ -6,7 +6,7 @@
       <router-view></router-view>
     </main>
     <footer class="footer">
-      <span class="company">© 2023, Название компании</span>
+      <span class="company">© 2023, ООО «Уно-Софт»</span>
     </footer>
   </div>
 </template>
