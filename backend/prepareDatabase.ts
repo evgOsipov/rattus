@@ -1,32 +1,8 @@
 import dotenv from 'dotenv';
-import { Client } from 'pg';
 
 import db from './db';
 
 dotenv.config();
-const createDatabaseIfNotExists = async () => {
-    const client = new Client({
-        host: process.env.POSTGRES_HOST,
-        user: process.env.POSTGRES_USER,
-        password: process.env.POSTGRES_PASS,
-        port: process.env.POSTGRES_PORT,
-    });
-    const createDatabaseQuery = `CREATE DATABASE ${process.env.DATABASE_NAME}`;
-    try {
-        await client.connect();
-        await client.query(createDatabaseQuery);
-        return true;
-    } catch (error) {
-        if (error.stack.includes(`"${process.env.DATABASE_NAME}" already exists`)) {
-            return true
-        }
-        console.error(error.stack);
-        return false;
-    } finally {
-        await client.end();
-    }
-}
-
 const createTablesIfNotExists = async () => {
     const createTableQueries = [
         `create TABLE IF NOT EXISTS "documents"
@@ -62,7 +38,6 @@ const createTablesIfNotExists = async () => {
 }
 
 export const prepareDatabase = async () => {
-    await createDatabaseIfNotExists();
     await createTablesIfNotExists();
 }
 

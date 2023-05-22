@@ -8,7 +8,7 @@
     <div class="report-list">
       <div class="report-list__title">
         <h3 class="list-header__title">Список требований</h3>
-        <short-button class="list-header__add-file"></short-button>
+        <short-button class="list-header__add-file"><i class="icon-download"></i></short-button>
         <simple-button class="list-header__file">ТЗ_по_созданию....docx</simple-button>
       </div>
       <div class="report-list__header">
@@ -17,7 +17,10 @@
         <div class="list-header__comment">Комментарий</div>
       </div>
 
-      <empty-list v-if="isEmpty"/>
+      <empty-list
+          v-if="isEmpty"
+          class="empty-list"
+      />
       <div v-else>
         <specification
             class="report-list__body"
@@ -26,7 +29,7 @@
         />
       </div>
     </div>
-    <simple-button class="report-list__save">Сохранить протокол</simple-button>
+    <simple-button class="report-list__save" @click="$router.push('/')">Сохранить протокол</simple-button>
   </div>
 
 </template>
@@ -73,7 +76,8 @@ export default {
 .report-header {
   margin-top: 70px;
   display: flex;
-  gap: 20px;
+  justify-content: space-between;
+  gap: 15px;
 }
 .report-title {
   font-weight: 400;
@@ -81,7 +85,13 @@ export default {
   line-height: 44px;
 }
 .report-exit {
-  justify-self: end;
+  min-width: 150px;
+  border: 1px solid #4951EC;
+  border-radius: 0;
+}
+.report-exit:active {
+  color: #FFF;
+  background: #4951EC;
 }
 .report-list {
   margin-top: 10px;
@@ -97,6 +107,11 @@ export default {
 }
 .list-header__add-file {
   background: #747474;
+  color: #FFF;
+}
+.list-header__add-file:active {
+  background: #FFF;
+  color: #747474;
 }
 .list-header__file {
   color: #747474;
@@ -109,7 +124,7 @@ export default {
 .report-list__header, .report-list__body {
   display: grid;
   gap: 55px;
-  grid-template-columns: 3fr 0.75fr 2fr;
+  grid-template-columns: 3fr 0.75fr 3fr;
   align-items: center;
   padding: 15px 0;
   line-height: 140%;
@@ -139,5 +154,12 @@ export default {
 }
 .list-header__comment {
   width: 350px;
+}
+.icon-download {
+  font-size: 24px;
+}
+.empty-list {
+  padding: 15px 0;
+  border-bottom: 1px solid #D4D4D4;
 }
 </style>

@@ -50,7 +50,7 @@ export const getSpecificationsByReport = async (id: string): Promise<ISpecificat
     return response.data;
 }
 
-export const createSpecification = async (title: string, docId: string): Promise<ISpecification> => {
+export const createSpecification = async (title: string, docId? : string): Promise<ISpecification> => {
     const response: AxiosResponse<ISpecification> = await api.post('/specifications', {
         title,
         documentId: docId,

@@ -3,8 +3,8 @@ import db from '../db';
 class SpecificationController {
     async createSpecification(req, res) {
         const { title, documentId, reportId } = req.body;
-        const status = 'FAIL';
-        const answer = '';
+        const status = req.body.status ?? 'default';
+        const answer = req.body.answer ??'';
         const newSpecification = await db.query(`INSERT INTO specifications (title, status, answer, document_id, report_id) values ($1, $2, $3, $4, $5) RETURNING *`, [title, status, answer, documentId, reportId]);
         res.json(newSpecification.rows[0]);
     }
