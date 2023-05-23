@@ -8,6 +8,7 @@ export const enum Routes {
   MAIN = '/',
   EDIT = '/edit',
   EDIT_ONE = '/edit/:id',
+  EVALUATE = '/evaluate/:id',
   REPORTS = '/reports',
   REPORT_CREATE = '/report/:id',
 }
@@ -24,6 +25,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: Routes.EDIT_ONE,
     component: EditPage
+  },
+  {
+    path: Routes.EVALUATE,
+    component: ReportCreatePage,
   },
   {
     path: Routes.REPORTS,

@@ -59,7 +59,10 @@ export const createSpecification = async ({
 }: ICreateSpecifications): Promise<ISpecification> => {
     const response: AxiosResponse<ISpecification> = await api.post('/specifications', {
         title,
+        status,
+        answer,
         documentId: docId,
+        reportId,
     });
     return response.data;
 }
@@ -92,6 +95,11 @@ export const createReport = async (title: string, docId: string): Promise<IRepor
 
 export const getReports = async (): Promise<IReport[]> => {
     const response: AxiosResponse<IReport[]> = await api.get(`/reports`);
+    return response.data;
+}
+
+export const getReport = async (id: string): Promise<IDocument> => {
+    const response: AxiosResponse<IDocument> = await api.get(`/reports/${id}`);
     return response.data;
 }
 

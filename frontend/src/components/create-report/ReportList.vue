@@ -2,7 +2,7 @@
   <loading v-if="isLoading"/>
   <div class="report" v-else>
     <div class="report-header">
-      <h3 class="report-title">Протокол проверки {{document.title}}</h3>
+      <h3 class="report-title">Протокол проверки {{entity.title}}</h3>
       <simple-button class="report-exit" @click="$router.go(-1)">Выйти</simple-button>
     </div>
     <div class="report-list">
@@ -18,7 +18,7 @@
       </div>
 
       <empty-list
-          v-if="isEmpty"
+          v-if="!specifications.length"
           class="empty-list"
       />
       <div v-else>
@@ -36,9 +36,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, Ref, ref } from 'vue'
+import { onMounted, Ref, ref, watch } from 'vue'
 import { useRoute } from 'vue-router/dist/vue-router'
-import { createReport, getDocument, getSpecificationsByDocument } from '@/api/api'
+import { createReport, getDocument, getReport, getSpecificationsByDocument, getSpecificationsByReport } from '@/api/api'
 import SimpleButton from '@/components/UI/SimpleButton.vue';
 import ShortButton from '@/components/UI/ShortButton.vue'
 import Loading from '@/components/Loading.vue'
@@ -46,25 +46,35 @@ import Specification from '@/components/create-report/Specification.vue'
 import EmptyList from '@/components/EmptyList.vue'
 import { ISpecification } from '@/interfaces/ISpecification';
 import { IDocument } from '@/interfaces/IDocument';
+import { IReport } from '@/interfaces/IReport';
 
-const document: Ref<IDocument | null> = ref(null);
+const entity: Ref<IDocument | IReport | null> = ref(null);
 const specifications: Ref<ISpecification[]> = ref([]);
 const isLoading = ref(true);
-const child: Ref<{
+const child: Ref<Array<{
   saveSpecification: (id: string) => void
-} | null> = ref(null);
-const isEmpty = ref(true);
+}> | null> = ref(null);
 const route = useRoute();
+
 onMounted(async () => {
-  document.value = await getDocument(route.params.id as string);
-  specifications.value = await getSpecificationsByDocument(route.params.id as string);
+  if (route.path.includes('evaluate')) {
+    entity.value = await getDocument(route.params.id as string);
+    specifications.value = await getSpecificationsByDocument(route.params.id as string);
+  }
+  if (route.path.includes('report')) {
+    entity.value = await getReport(route.params.id as string)
+    specifications.value = await getSpecificationsByReport(route.params.id as string);
+  }
   isLoading.value = false;
-  isEmpty.value = !specifications.value.length
 })
 
 const saveReport = async () => {
-  const report = await createReport(document.value?.title as string, document.value?.id as string)
-  await child.value?.saveSpecification(report.id);
+  const report = await createReport(entity.value?.title as string, entity.value?.id as string).then(res => res)
+  if (child?.value?.length) {
+    for (const item of child.value) {
+      await item.saveSpecification(report.id);
+    }
+  }
 }
 </script>
 

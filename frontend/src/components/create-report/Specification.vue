@@ -46,8 +46,8 @@ const oneSpecification = ref(props.specification);
 const title = ref()
 const isCommentEdit = ref(false);
 const selectClass = ref('list-item__select-default');
-const status = ref('default');
-const comment = ref('');
+const status = ref(oneSpecification.value.status);
+const comment = ref(oneSpecification.value.answer);
 
 watch(status, () => {
   switch (status.value) {
