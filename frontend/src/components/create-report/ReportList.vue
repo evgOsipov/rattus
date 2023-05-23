@@ -3,7 +3,7 @@
   <div class="report" v-else>
     <div class="report-header">
       <h3 class="report-title">Протокол проверки {{document.title}}</h3>
-      <simple-button class="report-exit" @click="$router.push('/')">Выйти</simple-button>
+      <simple-button class="report-exit" @click="$router.go(-1)">Выйти</simple-button>
     </div>
     <div class="report-list">
       <div class="report-list__title">
@@ -24,47 +24,47 @@
       <div v-else>
         <specification
             class="report-list__body"
+            ref="child"
             v-for="specification in specifications"
             :specification="specification"
         />
       </div>
     </div>
-    <simple-button class="report-list__save" @click="$router.push('/')">Сохранить протокол</simple-button>
+    <simple-button class="report-list__save" @click="saveReport">Сохранить протокол</simple-button>
   </div>
 
 </template>
 
-<script>
-import SimpleButton from '@/components/UI/SimpleButton'
-import ShortButton from '@/components/UI/ShortButton'
-import Loading from '@/components/Loading'
-import Specification from '@/components/create-report/Specification'
-import { onMounted, ref } from 'vue'
+<script setup lang="ts">
+import { onMounted, Ref, ref } from 'vue'
 import { useRoute } from 'vue-router/dist/vue-router'
-import { getDocument, getSpecificationsByDocument } from '@/api/api'
-import EmptyList from '@/components/EmptyList'
-export default {
-  name: 'ReportList',
-  components: { EmptyList, SimpleButton, ShortButton, Specification, Loading },
-  setup() {
-    const document = ref({});
-    const specifications = ref([]);
-    const isLoading = ref(true);
-    const isEmpty = ref(true);
-    const route = useRoute();
-    onMounted(async () => {
-      document.value = await getDocument(route.params.id);
-      specifications.value = await getSpecificationsByDocument(route.params.id);
-      isLoading.value = false;
-      isEmpty.value = !specifications.value.length
-    })
-    return {
-      document,
-      isLoading,
-      isEmpty,
-      specifications,
-    };
-  }
+import { createReport, getDocument, getSpecificationsByDocument } from '@/api/api'
+import SimpleButton from '@/components/UI/SimpleButton.vue';
+import ShortButton from '@/components/UI/ShortButton.vue'
+import Loading from '@/components/Loading.vue'
+import Specification from '@/components/create-report/Specification.vue'
+import EmptyList from '@/components/EmptyList.vue'
+import { ISpecification } from '@/interfaces/ISpecification';
+import { IDocument } from '@/interfaces/IDocument';
+
+const document: Ref<IDocument | null> = ref(null);
+const specifications: Ref<ISpecification[]> = ref([]);
+const isLoading = ref(true);
+const child: Ref<{
+  saveSpecification: (id: string) => void
+} | null> = ref(null);
+const isEmpty = ref(true);
+const route = useRoute();
+onMounted(async () => {
+  document.value = await getDocument(route.params.id as string);
+  specifications.value = await getSpecificationsByDocument(route.params.id as string);
+  isLoading.value = false;
+  isEmpty.value = !specifications.value.length
+})
+
+const saveReport = async () => {
+  const report = await createReport(document.value?.title as string, document.value?.id as string)
+  await child.value?.saveSpecification(report.id);
 }
 </script>
 

@@ -77,11 +77,17 @@ const clearComment = () => {
 }
 
 const saveSpecification = async (id: string) => {
-  await createSpecification(
-      title,
-
-  )
+  await createSpecification({
+    title: oneSpecification.value.title,
+    status: status.value,
+    answer: comment.value,
+    reportId: id,
+  })
 }
+
+defineExpose({
+  saveSpecification,
+})
 </script>
 
 <style scoped>

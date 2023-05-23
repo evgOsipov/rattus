@@ -6,3 +6,11 @@ export interface ISpecification {
     document_id: string;
     report_id: string;
 }
+
+export interface ICreateSpecifications {
+    title: string;
+    status?: string;
+    answer?: string;
+    reportId?: string;
+    docId?: string;
+}

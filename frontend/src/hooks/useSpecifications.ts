@@ -9,7 +9,10 @@ export function useSpecifications(route: RouteLocation) {
     const isSpecificationsLoading: Ref<boolean> = ref(false);
     const newSpecificationTitle: Ref<string> = ref('');
     const saveSpecification = async () => {
-        specifications.value.push(await createSpecification(newSpecificationTitle.value, id as string));
+        specifications.value.push(await createSpecification({
+            title: newSpecificationTitle.value,
+            docId: id as string
+        }));
         newSpecificationTitle.value = '';
     }
     if (id) {

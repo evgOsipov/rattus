@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 
 import { IDocument } from '@/interfaces/IDocument';
-import { ISpecification } from "@/interfaces/ISpecification";
+import { ICreateSpecifications, ISpecification } from '@/interfaces/ISpecification';
 import { IReport } from '@/interfaces/IReport';
 
 const SERVER_URL = process.env.VUE_APP_SERVER;
@@ -50,7 +50,13 @@ export const getSpecificationsByReport = async (id: string): Promise<ISpecificat
     return response.data;
 }
 
-export const createSpecification = async (title: string, docId? : string): Promise<ISpecification> => {
+export const createSpecification = async ({
+    title,
+    status,
+    answer,
+    docId,
+    reportId,
+}: ICreateSpecifications): Promise<ISpecification> => {
     const response: AxiosResponse<ISpecification> = await api.post('/specifications', {
         title,
         documentId: docId,
