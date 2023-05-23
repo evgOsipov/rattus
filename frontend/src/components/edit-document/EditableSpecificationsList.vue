@@ -22,8 +22,10 @@
           placeholder="Ввод нового требования"
           :auto-size="{ minRows: 2 }"
       />
-      <green-doc-button @click="addNewSpecification"
-                        class="square"
+      <green-doc-button
+          :short="true"
+          @click="addNewSpecification"
+          class="square"
       />
     </form>
   </div>

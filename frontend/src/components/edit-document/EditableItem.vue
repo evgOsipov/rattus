@@ -35,6 +35,7 @@
 
 <script setup
         lang="ts">
+import { ref } from 'vue';
 import GreenDocButton from '@/components/UI/buttons/GreenDocButton.vue';
 import PencilButton from '@/components/UI/buttons/PencilButton.vue';
 import TrashRedButton from '@/components/UI/buttons/TrashRedButton.vue';
