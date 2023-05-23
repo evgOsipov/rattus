@@ -1,9 +1,9 @@
 <template>
   <template-button
-    class="trash-red-btn"
+    class="pencil-btn"
   >
-    <i class="icon-delete" />
-    <slot />
+    <i class="icon-edit"/>
+    <slot/>
   </template-button>
 </template>
 
@@ -14,21 +14,20 @@ import TemplateButton from '@/components/UI/buttons/button-classes/TemplateButto
 </script>
 
 <style scoped>
-.trash-red-btn {
+.pencil-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #FF0000;
+  color: #0085FF;
+  border-color: #0085FF;
+}
+
+.pencil-btn:active {
+  background: #0085FF;
   color: #FFF;
   border-color: #000;
 }
-
-.trash-red-btn:active {
-  background: #FFF;
-  color: #FF0000;
-}
-
-i.icon-delete:before {
+i.icon-edit:before {
   background-size: 24px 24px;
   font-size: 24px;
 }

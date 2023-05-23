@@ -1,9 +1,10 @@
 <template>
   <div class="document-item">
     <div class="document-date">{{ date }}</div>
-    <div class="document-title">{{ title }}</div>
+    <div class="big-header">{{ title }}</div>
     <div class="document-controls">
-      <simple-button class="control-btn create-button" @click="$router.push(`/report/${report.id}`)">
+      <simple-button
+        class="control-btn create-button" @click="$router.push(`/report/${report.id}`)">
         <i class="icon-create-report"/>
         <span class="btn-text report-btn-text">
           Перейти к проверке ТЗ
@@ -61,7 +62,7 @@ export default {
 
   border-bottom: 1px solid #D4D4D4;
 }
-.document-title {
+.big-header {
   padding-left: 25px;
 }
 .document-controls {

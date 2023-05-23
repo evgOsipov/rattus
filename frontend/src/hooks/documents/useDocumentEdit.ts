@@ -1,53 +1,33 @@
-import { onMounted, Ref, ref } from 'vue'
+import { onMounted, Ref, ref } from 'vue';
 import { IDocument } from '@/interfaces/IDocument';
-import { RouteLocation } from "vue-router";
-import { createDocument, getDocument, updateDocument } from '@/api/api'
+import { RouteLocation } from 'vue-router';
+import { getDocument, updateDocument, saveFullDocument } from '@/api/api';
 
 export function useDocuments(route: RouteLocation) {
-    const document: Ref<Partial<IDocument>> = ref({});
-    const isDocumentLoading: Ref<boolean> = ref(false);
-    const isDocumentTitleEditing: Ref<boolean> = ref(false);
-    const oldDocumentTitle: Ref<string> = ref(document.value.title || '');
-    const id = route.params.id;
-    const editDocumentTitle = (): void => {
-        isDocumentTitleEditing.value = true;
-    }
-    const saveDocumentTitle = async (): Promise<void> => {
-        if (oldDocumentTitle.value === document.value.title) {
-            return;
-        }
-        if (id) {
-            document.value = await updateDocument(id as string, document.value.title as string);
-            isDocumentTitleEditing.value = false;
-            return;
-        }
-        document.value = await createDocument(document.value.title as string);
-        isDocumentTitleEditing.value = false;
-    }
-    const saveDocument = async (): Promise<void> => {
-
-    }
-    if (id) {
-        const fetching = async () => {
-            try {
-                document.value = await getDocument(id as string);
-            } catch (e) {
-                console.log(e)
-            } finally {
-                isDocumentLoading.value = true;
-            }
-        };
-        onMounted(fetching);
-    } else {
+  const document: Ref<Partial<IDocument>> = ref({});
+  const isDocumentLoading: Ref<boolean> = ref(false);
+  const { id } = route.params;
+  const saveDocumentFull = async (body: any): Promise<void> => {
+    body.document = document.value; // eslint-disable-line
+    await saveFullDocument(body);
+  };
+  if (id) {
+    const fetching = async () => {
+      try {
+        document.value = await getDocument(id as string);
+      } catch (e) {
+        console.log(e);
+      } finally {
         isDocumentLoading.value = true;
-        isDocumentTitleEditing.value = true;
-    }
-    return {
-        document,
-        isDocumentLoading,
-        isDocumentTitleEditing,
-        editDocumentTitle,
-        saveDocumentTitle,
-        saveDocument,
-    }
+      }
+    };
+    onMounted(fetching);
+  } else {
+    isDocumentLoading.value = true;
+  }
+  return {
+    document,
+    isDocumentLoading,
+    saveDocumentFull,
+  };
 }

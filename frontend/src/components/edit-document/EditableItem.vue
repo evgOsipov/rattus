@@ -1,35 +1,33 @@
 <template>
   <div class="item-container">
     <trash-red-button
-        class="right-control outside-control"
-        :short="true"
-        @click="$emit('deleteItem', props.object)"
+      class="right-control outside-control short"
+      :short="true"
+      @click="$emit('deleteItem')"
     />
-    <template v-if="!isSpecEditable">
+    <template v-if="!isItemEditable">
       <div class="item-text">
         {{ props.item }}
       </div>
-      <pencil-button
-          class="right-control"
-          :short="true"
-          @click="isSpecEditable=!isSpecEditable"
+      <blue-pencil-button
+        class="right-control short"
+        :short="true"
+        @click="isItemEditable=!isItemEditable"
       />
     </template>
     <template v-else>
       <a-textarea
-          :value="item"
-          class="item-text"
-          placeholder="Введите требование"
-          :auto-size="{ minRows: 2 }"
-          @input="$emit('update:item', $event.target.value)"
+        :value="item"
+        class="item-text"
+        placeholder="Введите требование"
+        :auto-size="{ minRows: 2 }"
+        @input="$emit('update:item', $event.target.value)"
       />
       <green-doc-button
-          class="right-control"
-          @click="isSpecEditable=!isSpecEditable"
-          :short="true"
+        class="right-control short"
+        @click="isItemEditable=!isItemEditable"
       />
     </template>
-
   </div>
 </template>
 
@@ -37,20 +35,17 @@
         lang="ts">
 import { ref } from 'vue';
 import GreenDocButton from '@/components/UI/buttons/GreenDocButton.vue';
-import PencilButton from '@/components/UI/buttons/PencilButton.vue';
+import BluePencilButton from '@/components/UI/buttons/BluePencilButton.vue';
 import TrashRedButton from '@/components/UI/buttons/TrashRedButton.vue';
 
-const props = defineProps({
+const props = defineProps({ //eslint-disable-line
   item: {
     type: String,
     required: true,
   },
-  object: {
-    required: true
-  }
 });
-defineEmits(['update:item', 'deleteItem']);
-const isSpecEditable = ref(false);
+defineEmits(['update:item', 'deleteItem']); //eslint-disable-line
+const isItemEditable = ref(false);
 </script>
 
 <style scoped>
@@ -77,7 +72,7 @@ const isSpecEditable = ref(false);
   max-width: 800px;
   width: 800px;
   display: inline-block;
-  font-family: Inter,serif;
+  font-family: Inter, serif;
   font-size: 11pt;
 }
 </style>

@@ -1,21 +1,23 @@
 <template>
-  <div class="create">
+  <div class="create-or-edit-page">
     <editable-header
-        v-model:document="document"
-        v-model:isDocumentTitleEditing="isDocumentTitleEditing"
-        @switch-edit-mode="editDocumentTitle"
+      v-model:header="document.title"
+      placeholder="Введите название документа"
     />
-    <div class="block-title">Список требований</div>
-    <empty-list v-if="!specifications.length"
-                class="specification"
+    <div class="block-title">
+      Список требований
+    </div>
+    <empty-list
+      v-if="!editSpecifications.length"
+      class="specification"
     />
     <editable-specifications-list
-        v-else
-        v-model:specifications="specifications"
+      v-else
+      v-model:edit-items="editSpecifications"
     />
     <simple-button
-        class="save-document"
-        @click="saveNewDocument"
+      class="save-document"
+      @click="saveNewDocument"
     >
       Сохранить техническое задание
     </simple-button>
@@ -23,40 +25,78 @@
 </template>
 
 <script setup
-        lang="ts">
-import EditableSpecificationsList from '@/components/edit-document/EditableSpecificationsList';
-import EditableHeader from '@/components/edit-document/EditableHeader';
-import { useRoute, useRouter } from 'vue-router';
-import SimpleButton from '@/components/UI/SimpleButton';
+        lang="ts"
+>
+import EditableSpecificationsList from '@/components/edit-document/EditableSpecificationsList.vue';
+import EditableHeader from '@/components/edit-document/EditableHeader.vue';
+import SimpleButton from '@/components/UI/SimpleButton.vue';
 import EmptyList from '@/components/EmptyList.vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useDocuments } from '@/hooks/documents/useDocumentEdit';
 import { useSpecifications } from '@/hooks/useSpecifications';
+import { IEditItem } from '@/interfaces/IEditItem';
+import { Ref, ref, watch } from 'vue';
+import { ISpecification } from '@/interfaces/ISpecification';
 
 const route = useRoute();
 const router = useRouter();
 const {
   document,
-  isDocumentLoading,
-  isDocumentTitleEditing,
-  editDocumentTitle,
-  saveDocumentTitle,
-  saveDocument,
+  saveDocumentFull,
 } = useDocuments(route);
 const {
   specifications,
   isSpecificationsLoading,
-  newSpecificationTitle,
-  saveSpecification,
 } = useSpecifications(route);
+const editSpecifications: Ref<IEditItem[]> = ref([]);
+watch(isSpecificationsLoading, (newVal) => {
+  if (!newVal) {
+    for (let i = 0; i < specifications.value.length; i += 1) {
+      editSpecifications.value.push({
+        item: { ...specifications.value[i] },
+        itemStatus: '',
+      });
+    }
+  }
+});
+const unproxy = (obj: any) => JSON.parse(JSON.stringify(obj));
 const saveNewDocument = async () => {
-  await saveDocument();
+  const createSpecifications: Partial<ISpecification>[] = [];
+  const updateSpecifications: Partial<ISpecification>[] = [];
+  const deleteSpecifications: Partial<ISpecification>[] = [];
+  for (let i = 0; i < specifications.value.length; i += 1) {
+    const oldSpec = specifications.value[i];
+    const newSpec = editSpecifications.value[i].item;
+    if (JSON.stringify(oldSpec) !== JSON.stringify(newSpec)) {
+      updateSpecifications.push(unproxy(newSpec));
+    }
+  }
+  editSpecifications.value.forEach((specification) => {
+    switch (specification.itemStatus) {
+      case 'new':
+        createSpecifications.push(unproxy(specification.item));
+        break;
+      case 'delete':
+        deleteSpecifications.push(unproxy(specification.item));
+        break;
+      default:
+        break;
+    }
+  });
+  console.log(updateSpecifications);
+  console.log(deleteSpecifications);
+  console.log(createSpecifications);
+  await saveDocumentFull({
+    updateSpecifications,
+    deleteSpecifications,
+    createSpecifications,
+  });
   await router.push('/');
 };
-
 </script>
 
 <style scoped>
-.create {
+.create-or-edit-page {
   display: flex;
   flex-direction: column;
 }
