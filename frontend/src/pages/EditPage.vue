@@ -1,5 +1,9 @@
 <template>
-  <div class="create-or-edit-page">
+  <loading v-if="isDocumentLoading || isSpecificationsLoading"/>
+  <div
+    v-else
+    class="create-or-edit-page"
+  >
     <editable-header
       v-model:header="document.title"
       placeholder="Введите название документа"
@@ -7,7 +11,7 @@
     <div class="block-title">
       Список требований
     </div>
-    <editable-specifications-list v-model:edit-items="editSpecifications" />
+    <editable-specifications-list v-model:edit-items="editSpecifications"/>
     <simple-button
       class="save-document"
       @click="saveNewDocument"
@@ -23,18 +27,19 @@
 import EditableSpecificationsList from '@/components/edit-document/EditableSpecificationsList.vue';
 import EditableHeader from '@/components/edit-document/EditableHeader.vue';
 import SimpleButton from '@/components/UI/SimpleButton.vue';
-import EmptyList from '@/components/EmptyList.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useDocuments } from '@/hooks/documents/useDocumentEdit';
 import { useSpecifications } from '@/hooks/useSpecifications';
 import { IEditItem } from '@/interfaces/IEditItem';
 import { Ref, ref, watch } from 'vue';
 import { ISpecification } from '@/interfaces/ISpecification';
+import Loading from '@/components/Loading.vue';
 
 const route = useRoute();
 const router = useRouter();
 const {
   document,
+  isDocumentLoading,
   saveDocumentFull,
 } = useDocuments(route);
 const {
@@ -86,6 +91,11 @@ const saveNewDocument = async () => {
   });
   await router.push('/');
 };
+
+// setInterval(() => {
+//   console.log(isDocumentLoading.value);
+//   console.log(isSpecificationsLoading.value);
+// }, 500);
 </script>
 
 <style scoped>
@@ -99,13 +109,6 @@ const saveNewDocument = async () => {
   margin: 20px 10px 0 0;
 }
 
-.specification {
-  padding: 30px 0;
-  border-bottom: 1px solid #D4D4D4;
-  color: #272727;
-  line-height: 19px;
-}
-
 .save-document {
   margin-top: 38px;
   justify-self: center;
@@ -115,7 +118,6 @@ const saveNewDocument = async () => {
   background: #4951EC;
   color: #FFF;
   border: none;
-  border-radius: 0;
 }
 
 .save-document:active {

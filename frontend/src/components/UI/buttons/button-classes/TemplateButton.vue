@@ -18,7 +18,6 @@ export default {
   color: #000;
   cursor: pointer;
   background: #fff;
-  font-weight: 500;
 }
 .simple {
   width: 140px;

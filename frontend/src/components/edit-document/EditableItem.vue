@@ -4,10 +4,6 @@
       <div class="item-text">
         {{ props.item }}
       </div>
-      <blue-pencil-button
-        class="right-control edit-control short"
-        @click="isItemEditable=!isItemEditable"
-      />
     </template>
     <template v-else>
       <a-textarea
@@ -17,16 +13,31 @@
         :auto-size="{ minRows: 2 }"
         @input="$emit('update:item', $event.target.value)"
       />
-      <green-doc-button
-        class="right-control short"
-        @click="isItemEditable=!isItemEditable"
-      />
     </template>
-    <trash-red-button
-      class="right-control short"
-      :short="true"
-      @click="$emit('deleteItem')"
-    />
+    <div class="controls-container">
+      <div class="controls">
+        <blue-pencil-button
+          v-if="!isItemEditable"
+          class="right-control"
+          @click="isItemEditable=!isItemEditable"
+        >
+          Редактировать
+        </blue-pencil-button>
+        <green-doc-button
+          v-else
+          class="right-control"
+          @click="isItemEditable=!isItemEditable"
+        >
+          &nbsp;Сохранить
+        </green-doc-button>
+        <trash-red-button
+          class="right-control "
+          @click="$emit('deleteItem')"
+        >
+          Удалить
+        </trash-red-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -49,11 +60,19 @@ const isItemEditable = ref(false);
 </script>
 
 <style scoped>
+.controls {
+  display: flex;
+  font-size: 13px;
+}
+
+.controls-container {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 65px;
+}
+
 .right-control {
-  display: block;
-  position: absolute;
-  top: 20px;
-  right: 70px
+  margin: 0 5px;
 }
 
 .item-container {
@@ -63,16 +82,14 @@ const isItemEditable = ref(false);
   align-items: flex-start;
 }
 
-.edit-control {
-  right: 168px;
-}
-
 .item-text {
   padding: 5px;
-  max-width: 800px;
-  width: 800px;
+  max-width: 700px;
+  width: 700px;
   display: inline-block;
   font-family: Inter, serif;
   font-size: 11pt;
+  line-height: 1.2em;
+  overflow-wrap: break-word;
 }
 </style>

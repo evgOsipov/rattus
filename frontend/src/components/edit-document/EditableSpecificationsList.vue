@@ -17,7 +17,7 @@
         />
       </div>
     </div>
-    <div class="title-form title-form__specifications">
+    <div class="add-item-container">
       <a-textarea
         v-model:value="newItem"
         class="text-field"
@@ -25,9 +25,11 @@
         :auto-size="{ minRows: 2 }"
       />
       <green-doc-button
-        class="square short"
+        class="add-spec-btn"
         @click="addNewItem"
-      />
+      >
+        &nbsp;Добавить
+      </green-doc-button>
     </div>
   </div>
 </template>
@@ -51,9 +53,17 @@ const itemsRef = toRef(props, 'editItems');
 const newItem = ref('');
 const addNewItem = () => {
   if (newItem.value) {
-    itemsRef.value.push({
-      item: { title: newItem.value },
-      itemStatus: 'new',
+    let workString = newItem.value;
+    workString = workString.replace(/\n$/g, '').replace(/^\n/g, '');
+    const workSubstrings = workString.split('\n');
+    workSubstrings.forEach((el) => {
+      const trimmed = el.trimEnd().trimStart();
+      if (trimmed) {
+        itemsRef.value.push({
+          item: { title: trimmed },
+          itemStatus: 'new',
+        });
+      }
     });
   }
   newItem.value = '';
@@ -75,21 +85,23 @@ const markOrDelete = (obj: IEditItem) => {
 </script>
 
 <style scoped>
+.add-spec-btn {
+  margin-left: 70px;
+  font-size: 13px;
+}
+
 .text-field {
   padding: 5px;
-  max-width: 800px;
-  width: 800px;
+  max-width: 700px;
+  width: 700px;
   display: block;
   font-family: Inter, serif;
   font-size: 11pt;
 }
 
-.title-form {
+.add-item-container {
   display: flex;
-  height: 48px;
-}
-
-.title-form__specifications {
+  min-height: 48px;
   margin-top: 32px;
 }
 

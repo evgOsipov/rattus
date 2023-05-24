@@ -5,7 +5,7 @@
       class="non-editable-header"
     >
       <h3 class="big-header">
-        {{ header }}
+        {{ headerPlaceholder }}
       </h3>
       <pencil-button
         class="edit-btn short"
@@ -17,9 +17,10 @@
       class="editable-header"
     >
       <a-input
+        class="header-input"
+        size="large"
         :placeholder="placeholder"
         :value="header"
-        size="large"
         @input="$emit('update:header', $event.target.value)"
       />
       <green-doc-button
@@ -39,8 +40,9 @@
 </template>
 
 <script setup
-        lang="ts">
-import { onMounted, ref } from 'vue';
+        lang="ts"
+>
+import { computed, ref } from 'vue';
 import SimpleButton from '@/components/UI/SimpleButton.vue';
 import GreenDocButton from '@/components/UI/buttons/GreenDocButton.vue';
 import PencilButton from '@/components/UI/buttons/BluePencilButton.vue';
@@ -49,7 +51,7 @@ const isHeaderEditing = ref(false);
 const props = defineProps({ // eslint-disable-line
   header: {
     type: String,
-    default: undefined,
+    default: '',
   },
   placeholder: {
     type: String,
@@ -58,10 +60,15 @@ const props = defineProps({ // eslint-disable-line
   },
 });
 defineEmits(['update:header']); // eslint-disable-line
+const headerPlaceholder = computed(() => (props.header.length ? props.header : 'Новое ТЗ'));
 </script>
 <style scoped>
 .square {
   border-radius: 0;
+}
+
+.header-input {
+  font-size: 13pt;
 }
 
 .non-editable-header {
@@ -119,6 +126,7 @@ defineEmits(['update:header']); // eslint-disable-line
 .save-btn {
   color: white;
   border-color: black;
+  font-size: 13px;
 }
 
 .edit-btn {
