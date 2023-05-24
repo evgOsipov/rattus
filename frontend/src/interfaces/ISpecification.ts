@@ -7,10 +7,17 @@ export interface ISpecification {
     report_id: string;
 }
 
-export interface ICreateSpecifications {
+export interface ICreateSpecification {
     title: string;
     status?: string;
     answer?: string;
     reportId?: string;
     docId?: string;
+}
+
+export interface IUpdateSpecification {
+    id: string;
+    title?: string;
+    status?: string;
+    answer?: string;
 }

@@ -35,10 +35,18 @@
 
 </template>
 
-<script setup lang="ts">
-import { onMounted, Ref, ref, watch } from 'vue'
+<script setup
+        lang="ts">
+import { onMounted, Ref, ref } from 'vue'
 import { useRoute } from 'vue-router/dist/vue-router'
-import { createReport, getDocument, getReport, getSpecificationsByDocument, getSpecificationsByReport } from '@/api/api'
+import {
+  createReport,
+  getDocument,
+  getReport,
+  getSpecificationsByDocument,
+  getSpecificationsByReport,
+  updateReport
+} from '@/api/api'
 import SimpleButton from '@/components/UI/SimpleButton.vue';
 import ShortButton from '@/components/UI/ShortButton.vue'
 import Loading from '@/components/Loading.vue'
@@ -52,7 +60,8 @@ const entity: Ref<IDocument | IReport | null> = ref(null);
 const specifications: Ref<ISpecification[]> = ref([]);
 const isLoading = ref(true);
 const child: Ref<Array<{
-  saveSpecification: (id: string) => void
+  saveSpecification: (id: string) => void;
+  changeSpecification: () => void;
 }> | null> = ref(null);
 const route = useRoute();
 
@@ -62,17 +71,27 @@ onMounted(async () => {
     specifications.value = await getSpecificationsByDocument(route.params.id as string);
   }
   if (route.path.includes('report')) {
-    entity.value = await getReport(route.params.id as string)
+    entity.value = await getReport(route.params.id as string);
     specifications.value = await getSpecificationsByReport(route.params.id as string);
   }
   isLoading.value = false;
 })
 
 const saveReport = async () => {
-  const report = await createReport(entity.value?.title as string, entity.value?.id as string).then(res => res)
-  if (child?.value?.length) {
-    for (const item of child.value) {
-      await item.saveSpecification(report.id);
+  if (route.path.includes('evaluate')) {
+    const report = await createReport(entity.value?.title as string, entity.value?.id as string).then(res => res);
+    if (child?.value?.length) {
+      for (const item of child.value) {
+        await item.saveSpecification(report.id);
+      }
+    }
+  }
+  if (route.path.includes('report')) {
+    await updateReport(entity.value?.id as string, entity.value?.title as string);
+    if (child?.value?.length) {
+      for (const item of child.value) {
+        await item.changeSpecification();
+      }
     }
   }
 }

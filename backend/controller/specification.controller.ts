@@ -25,7 +25,7 @@ class SpecificationController {
     }
     async updateSpecification(req, res) {
         const { id, title, status, answer } = req.body;
-        const specification = await db.query('UPDATE specifications SET title = $1, status = $2, answer = $3 WHERE id = $4 RETURNING *', [title, id, status, answer]);
+        const specification = await db.query('UPDATE specifications SET title = $1, status = $2, answer = $3 WHERE id = $4 RETURNING *', [title, status, answer, id]);
         res.json(specification.rows[0]);
     }
     async deleteSpecification(req, res) {

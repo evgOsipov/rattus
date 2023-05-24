@@ -34,9 +34,9 @@
 
 <script setup lang="ts">
 import ShortButton from '@/components/UI/ShortButton.vue';
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { ISpecification } from '@/interfaces/ISpecification';
-import { createSpecification } from '@/api/api';
+import { createSpecification, updateSpecification } from '@/api/api'
 
 const props = defineProps<{
   specification: ISpecification,
@@ -46,8 +46,12 @@ const oneSpecification = ref(props.specification);
 const title = ref()
 const isCommentEdit = ref(false);
 const selectClass = ref('list-item__select-default');
-const status = ref(oneSpecification.value.status);
+const status = ref('default');
 const comment = ref(oneSpecification.value.answer);
+
+onMounted(() => {
+  status.value = oneSpecification.value.status;
+})
 
 watch(status, () => {
   switch (status.value) {
@@ -85,8 +89,18 @@ const saveSpecification = async (id: string) => {
   })
 }
 
+const changeSpecification = async () => {
+  await updateSpecification({
+    id: oneSpecification.value.id,
+    title: oneSpecification.value.title,
+    status: status.value,
+    answer: comment.value,
+  })
+}
+
 defineExpose({
   saveSpecification,
+  changeSpecification,
 })
 </script>
 
