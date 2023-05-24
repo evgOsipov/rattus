@@ -1,16 +1,11 @@
 <template>
   <div class="item-container">
-    <trash-red-button
-      class="right-control outside-control short"
-      :short="true"
-      @click="$emit('deleteItem')"
-    />
     <template v-if="!isItemEditable">
       <div class="item-text">
         {{ props.item }}
       </div>
       <blue-pencil-button
-        class="right-control short"
+        class="right-control edit-control short"
         :short="true"
         @click="isItemEditable=!isItemEditable"
       />
@@ -28,11 +23,17 @@
         @click="isItemEditable=!isItemEditable"
       />
     </template>
+    <trash-red-button
+      class="right-control short"
+      :short="true"
+      @click="$emit('deleteItem')"
+    />
   </div>
 </template>
 
 <script setup
-        lang="ts">
+        lang="ts"
+>
 import { ref } from 'vue';
 import GreenDocButton from '@/components/UI/buttons/GreenDocButton.vue';
 import BluePencilButton from '@/components/UI/buttons/BluePencilButton.vue';
@@ -50,10 +51,10 @@ const isItemEditable = ref(false);
 
 <style scoped>
 .right-control {
-  float: right;
-  display: inline-block;
-  vertical-align: center;
-  margin-right: 50px;
+  display: block;
+  position: absolute;
+  top: 20px;
+  right: 70px
 }
 
 .item-container {
@@ -63,8 +64,8 @@ const isItemEditable = ref(false);
   align-items: flex-start;
 }
 
-.outside-control {
-  margin-right: 70px;
+.edit-control {
+  right: 168px;
 }
 
 .item-text {

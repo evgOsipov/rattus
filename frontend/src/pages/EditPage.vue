@@ -7,14 +7,7 @@
     <div class="block-title">
       Список требований
     </div>
-    <empty-list
-      v-if="!editSpecifications.length"
-      class="specification"
-    />
-    <editable-specifications-list
-      v-else
-      v-model:edit-items="editSpecifications"
-    />
+    <editable-specifications-list v-model:edit-items="editSpecifications" />
     <simple-button
       class="save-document"
       @click="saveNewDocument"

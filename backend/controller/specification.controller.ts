@@ -10,7 +10,7 @@ class SpecificationController {
     }
     async getSpecificationsByDocument(req, res) {
         const id = req.query.id;
-        const specifications = await db.query('SELECT * FROM specifications WHERE document_id = $1', [id]);
+        const specifications = await db.query(`SELECT * FROM specifications WHERE document_id = ${id} ORDER BY id`);
         res.json(specifications.rows);
     }
     async getSpecificationsByReport(req, res) {

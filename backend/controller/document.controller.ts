@@ -32,43 +32,45 @@ class DocumentController {
 	}
 
 	async saveFullDocument(req, res) {
-			let { document, updateSpecifications, deleteSpecifications, createSpecifications } = req.body;
-			if (!document || !createSpecifications) {
-				return 'bad data';
+		let { document, updateSpecifications, deleteSpecifications, createSpecifications } = req.body;
+		if (!document || !createSpecifications) {
+			return 'bad data';
+		}
+		const { id, title } = document;
+		if (!id) {
+			if (!title) {
+				res.send('Bad data');
+				return;
 			}
-			const { id, title } = document;
-			if (!id) {
-				if (!title) {
-					res.send('Bad data')
-				}
-				document = await db.query(`INSERT INTO documents (title, date) values ($1, $2) RETURNING *`, [title, Date.now()]);
-				console.log(title);
-				for (const specification of createSpecifications) {
-					await db.query(`
+			const result = await db.query('INSERT INTO documents (title, "date") values ($1, $2) RETURNING *;', [title, Date.now()]);
+			const newId = result.rows[0].id;
+			for (const specification of createSpecifications) {
+				await db.query(`
           INSERT INTO public.specifications
           (title, status, answer, document_id)
-          VALUES('', 'default', '', ${document.id});`);
-				}
-			} else {
-				for (const specification of createSpecifications) {
-					await db.query(`
+          VALUES('${specification.title}', 'default', '', '${newId}');`);
+			}
+		} else {
+			for (const specification of createSpecifications) {
+				await db.query(`
           INSERT INTO public.specifications
           (title, status, answer, document_id)
-          VALUES(${specification.title}, 'default', '', ${id});`);
-				}
-				for (const specification of deleteSpecifications) {
-					await db.query(`
+          VALUES('${specification.title}', 'default', '', '${id}');`);
+			}
+			for (const specification of deleteSpecifications) {
+				await db.query(`
             DELETE FROM specifications
-					  WHERE id=${specification.id};`);
-				}
-				for (const specification of updateSpecifications) {
-					await db.query(`
-            UPDATE specifications
-            SET title=${specification.title}
-            WHERE id=${specification.id};`);
-				}
+					  WHERE id='${specification.id}';`);
 			}
-		res.json(document);
+			for (const specification of updateSpecifications) {
+				await db.query(`
+            UPDATE specifications
+            SET title='${specification.title}'
+            WHERE id='${specification.id}';`);
+			}
+		}
+		res.statusCode = 200;
+		res.send('success')
 	}
 }
 

@@ -2,7 +2,7 @@
   <div>
     <empty-list
       v-if="!editItems.length"
-      class="specifications-list"
+      class="specification"
     />
     <div class="specifications-list">
       <div
@@ -38,7 +38,6 @@
 import EmptyList from '@/components/EmptyList.vue';
 import EditableItem from '@/components/edit-document/EditableItem.vue';
 import GreenDocButton from '@/components/UI/buttons/GreenDocButton.vue';
-import { ISpecification } from '@/interfaces/ISpecification';
 import { PropType, ref, toRef } from 'vue';
 import { IEditItem } from '@/interfaces/IEditItem';
 
