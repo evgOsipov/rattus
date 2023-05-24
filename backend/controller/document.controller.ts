@@ -51,6 +51,10 @@ class DocumentController {
           VALUES('${specification.title}', 'default', '', '${newId}');`);
 			}
 		} else {
+			await db.query(`
+			  UPDATE public.documents
+        SET title='${title}'
+        WHERE id= ${id}; `);
 			for (const specification of createSpecifications) {
 				await db.query(`
           INSERT INTO public.specifications
