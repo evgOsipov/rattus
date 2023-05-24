@@ -3,8 +3,8 @@ import db from '../db';
 class SpecificationController {
     async createSpecification(req, res) {
         const { title, documentId, reportId } = req.body;
-        const status = 'FAIL';
-        const answer = '';
+        const status = req.body.status ?? 'default';
+        const answer = req.body.answer ??'';
         const newSpecification = await db.query(`INSERT INTO specifications (title, status, answer, document_id, report_id) values ($1, $2, $3, $4, $5) RETURNING *`, [title, status, answer, documentId, reportId]);
         res.json(newSpecification.rows[0]);
     }
@@ -25,7 +25,7 @@ class SpecificationController {
     }
     async updateSpecification(req, res) {
         const { id, title, status, answer } = req.body;
-        const specification = await db.query('UPDATE specifications SET title = $1, status = $2, answer = $3 WHERE id = $4 RETURNING *', [title, id, status, answer]);
+        const specification = await db.query('UPDATE specifications SET title = $1, status = $2, answer = $3 WHERE id = $4 RETURNING *', [title, status, answer, id]);
         res.json(specification.rows[0]);
     }
     async deleteSpecification(req, res) {

@@ -2,9 +2,9 @@ import db from '../db';
 
 class ReportController {
     async createReport(req, res) {
-        const { title } = req.body;
+        const { title, docId } = req.body;
         const data = Date.now();
-        const newReport = await db.query(`INSERT INTO reports (title, date) values ($1, $2) RETURNING *`, [title, data]);
+        const newReport = await db.query(`INSERT INTO reports (title, date, document_id) values ($1, $2, $3) RETURNING *`, [title, data, docId]);
         res.json(newReport.rows[0]);
     }
     async getReports(req, res) {

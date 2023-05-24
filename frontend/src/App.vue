@@ -33,7 +33,6 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 body {
-  height: 100%;
 }
 
 a:active,
@@ -53,12 +52,11 @@ button {
 
 .wrapper {
   margin: 0 auto;
-  min-height: 100%;
   width: 1096px;
   display: flex;
   flex-direction: column;
-
-  font-family: Inter;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: 14px;
 }

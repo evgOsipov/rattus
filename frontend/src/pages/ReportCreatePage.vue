@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ReportList from '@/components/create-report/ReportList'
+import ReportList from '@/components/create-report/CreateReport'
 export default {
   name: 'ReportCreatePage',
   components: { ReportList }

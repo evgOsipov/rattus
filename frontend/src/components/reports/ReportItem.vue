@@ -1,16 +1,15 @@
 <template>
   <div class="document-item">
     <div class="document-date">{{ date }}</div>
-    <div class="big-header">{{ title }}</div>
+    <div class="document-title">{{ title }}</div>
     <div class="document-controls">
-      <simple-button
-        class="control-btn create-button" @click="$router.push(`/report/${report.id}`)">
-        <i class="icon-create-report"/>
+      <simple-button class="control-btn print-button">
+        <i class="icon-as-pdf"/>
         <span class="btn-text report-btn-text">
-          Перейти к проверке ТЗ
+          Скачать PDF
         </span>
       </simple-button>
-      <simple-button class="control-btn edit-button" @click="$router.push(`/edit/${report.id}`)">
+      <simple-button class="control-btn edit-button" @click="$router.push(`/report/${report.id}`)">
         <i class="icon-edit"/>
         <span class="btn-text">Редактировать</span>
       </simple-button>
@@ -62,7 +61,7 @@ export default {
 
   border-bottom: 1px solid #D4D4D4;
 }
-.big-header {
+.document-title {
   padding-left: 25px;
 }
 .document-controls {
@@ -91,13 +90,13 @@ export default {
   color: #FFF;
   border-color: #000;
 }
-.create-button {
-  background: #38AE00;
-  color: #FFFEFE;
+.print-button {
+  background: #FFFFFF;
+  color: #000000;
 }
-.create-button:active {
-  background: #FFF;
-  color: #38AE00;
+.print-button:active {
+  background: #ED1C24;
+  color: #FFFFFF;
 }
 .delete-button{
   background: #FF0000;

@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 
 import { IDocument } from '@/interfaces/IDocument';
-import { ISpecification } from '@/interfaces/ISpecification';
+import { ICreateSpecification, IUpdateSpecification, ISpecification } from '@/interfaces/ISpecification';
 import { IReport } from '@/interfaces/IReport';
 
 const SERVER_URL = process.env.VUE_APP_SERVER;
@@ -50,29 +50,42 @@ export const getSpecificationsByReport = async (id: string): Promise<ISpecificat
   return response.data;
 };
 
-export const createSpecification = async (
-  title: string,
-  docId: string,
-): Promise<ISpecification> => {
-  const response: AxiosResponse<ISpecification> = await api.post('/specifications', {
+export const createSpecification = async ({
     title,
-    documentId: docId,
-  });
-  return response.data;
-};
+    status,
+    answer,
+    docId,
+    reportId,
+}: ICreateSpecification): Promise<ISpecification> => {
+    const response: AxiosResponse<ISpecification> = await api.post('/specifications', {
+        title,
+        status,
+        answer,
+        documentId: docId,
+        reportId,
+    });
+    return response.data;
+}
 
 export const getSpecification = async (id: string): Promise<ISpecification> => {
   const response: AxiosResponse<ISpecification> = await api.get(`/specifications/${id}`);
   return response.data;
 };
 
-export const updateSpecification = async (id: string, title: string): Promise<ISpecification> => {
-  const response: AxiosResponse<ISpecification> = await api.put('/specifications', {
+export const updateSpecification = async ({
     id,
     title,
-  });
-  return response.data;
-};
+    status,
+    answer,
+}: IUpdateSpecification): Promise<ISpecification> => {
+    const response: AxiosResponse<ISpecification> = await api.put('/specifications', {
+        id,
+        title,
+        status,
+        answer,
+    });
+    return response.data;
+}
 
 export const deleteSpecification = async (id: string): Promise<ISpecification> => {
   const response: AxiosResponse<ISpecification> = await api.delete(`/specifications/${id}`);
@@ -88,9 +101,14 @@ export const createReport = async (title: string, docId: string): Promise<IRepor
 };
 
 export const getReports = async (): Promise<IReport[]> => {
-  const response: AxiosResponse<IReport[]> = await api.get('/reports');
-  return response.data;
-};
+    const response: AxiosResponse<IReport[]> = await api.get(`/reports`);
+    return response.data;
+}
+
+export const getReport = async (id: string): Promise<IDocument> => {
+    const response: AxiosResponse<IDocument> = await api.get(`/reports/${id}`);
+    return response.data;
+}
 
 export const getReportsByDocument = async (id: string): Promise<IReport[]> => {
   const response: AxiosResponse<IReport[]> = await api.get(`/reports?id=${id}`);

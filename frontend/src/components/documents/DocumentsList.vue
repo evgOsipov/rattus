@@ -62,6 +62,7 @@ export default {
 
 <style scoped>
 .documents-list {
+  width: 100%;
   margin-top: 37px;
 }
 .lists-title {

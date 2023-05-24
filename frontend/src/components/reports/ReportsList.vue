@@ -59,6 +59,7 @@ export default {
 
 <style scoped>
 .reports-list {
+  width: 100%;
   margin-top: 37px;
 }
 .lists-title {
