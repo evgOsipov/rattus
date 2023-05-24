@@ -2,7 +2,9 @@
   <loading v-if="isLoading"/>
   <div class="report" v-else>
     <div class="report-header">
-      <h3 class="report-title">Протокол проверки {{entity.title}}</h3>
+      <div>
+        <h3 class="report-title">Протокол проверки {{entity.title}}</h3>
+      </div>
       <simple-button class="report-exit" @click="$router.go(-1)">Выйти</simple-button>
     </div>
     <div class="report-list">
@@ -55,6 +57,7 @@ import EmptyList from '@/components/EmptyList.vue'
 import { ISpecification } from '@/interfaces/ISpecification';
 import { IDocument } from '@/interfaces/IDocument';
 import { IReport } from '@/interfaces/IReport';
+import { useRouter } from 'vue-router';
 
 const entity: Ref<IDocument | IReport | null> = ref(null);
 const specifications: Ref<ISpecification[]> = ref([]);
@@ -64,6 +67,7 @@ const child: Ref<Array<{
   changeSpecification: () => void;
 }> | null> = ref(null);
 const route = useRoute();
+const router = useRouter();
 
 onMounted(async () => {
   if (route.path.includes('evaluate')) {
@@ -94,6 +98,7 @@ const saveReport = async () => {
       }
     }
   }
+  router.go(-1);
 }
 </script>
 
@@ -112,6 +117,9 @@ const saveReport = async () => {
   font-weight: 400;
   font-size: 40px;
   line-height: 44px;
+
+  inline-size: 915px;
+  overflow-wrap: break-word;
 }
 .report-exit {
   min-width: 150px;

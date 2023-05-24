@@ -23,7 +23,7 @@ export function useDocuments(route: RouteLocation) {
     };
     onMounted(fetching);
   } else {
-    isDocumentLoading.value = true;
+    isDocumentLoading.value = false;
   }
   return {
     document,

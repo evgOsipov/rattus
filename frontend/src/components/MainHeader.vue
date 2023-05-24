@@ -17,6 +17,7 @@
           class="search-input"
           type="text"
           placeholder="Введите поисковый запрос"
+          v-model="searchQuery"
       />
       <simple-button class="search-button"><i class="icon-search"/>Найти</simple-button>
     </div>
@@ -27,20 +28,14 @@
   </div>
 </template>
 
-<script>
-import SimpleButton from '@/components/UI/SimpleButton'
+<script setup
+        lang="ts">
+import SimpleButton from '@/components/UI/SimpleButton.vue'
 import { useRoute } from 'vue-router'
+import { useSearchedAndSortedList } from '@/hooks/useSearchedAndSortedList';
 
-export default {
-  name: 'MainHeader',
-  components: { SimpleButton },
-  setup () {
-    const route = useRoute();
-    return {
-      route
-    };
-  }
-}
+const { searchQuery } = useSearchedAndSortedList();
+const route = useRoute();
 </script>
 
 <style scoped>

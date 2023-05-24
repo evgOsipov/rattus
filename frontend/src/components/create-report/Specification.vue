@@ -1,6 +1,6 @@
 <template>
   <div class="report-list__body">
-    <div>{{oneSpecification.title}}</div>
+    <div class="report-list__title">{{oneSpecification.title}}</div>
     <div class="select-wrapper">
       <select class="list-item__select" :class="selectClass" v-model="status">
         <option value="default" selected disabled>Выбор статуса</option>
@@ -13,7 +13,6 @@
       <div class="comment-edit" v-if="isCommentEdit">
          <textarea
              class="comment-input"
-             placeholder="Введите новый комментарий (след. строчка)"
              v-model="comment"
          ></textarea>
         <div class="comment-buttons">
@@ -44,7 +43,7 @@ const props = defineProps<{
 
 const oneSpecification = ref(props.specification);
 const title = ref()
-const isCommentEdit = ref(false);
+const isCommentEdit = ref(true);
 const selectClass = ref('list-item__select-default');
 const status = ref('default');
 const comment = ref(oneSpecification.value.answer);
@@ -105,6 +104,10 @@ defineExpose({
 </script>
 
 <style scoped>
+.report-list__title {
+  inline-size: 400px;
+  overflow-wrap: break-word;
+}
 .list-item__select {
   width: 180px;
   height: 50px;

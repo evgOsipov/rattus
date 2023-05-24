@@ -2,6 +2,7 @@
   <div
       class="documents"
   >
+    <main-header/>
     <div
         class="documents-list"
         v-if="!isPageLoading"
@@ -26,39 +27,26 @@
     <loading
         v-else
     />
+    <pagination/>
   </div>
 </template>
 
-<script>
-import Document from '@/components/documents/Document'
-import Loading from '@/components/Loading'
-import DocumentForm from '@/components/documents/DocumentForm'
-import EmptyList from '@/components/EmptyList'
-import SimpleButton from '@/components/UI/SimpleButton'
+<script setup
+        lang="ts">
+import Document from '@/components/documents/Document.vue'
+import Loading from '@/components/Loading.vue'
+import DocumentForm from '@/components/documents/DocumentForm.vue'
+import EmptyList from '@/components/EmptyList.vue'
+import MainHeader from '@/components/MainHeader.vue'
+import Pagination from '@/components/Pagination.vue'
 import { useDocuments } from '@/hooks/documents/useDocuments'
 import { useSortedList } from '@/hooks/useSortedList'
 import { useSearchedAndSortedList } from '@/hooks/useSearchedAndSortedList'
 
-export default {
-  name: 'DocumentLists',
-  components: { SimpleButton, EmptyList, DocumentForm, Loading, Document },
-  setup () {
-    const { documents, totalPages, isPageLoading, removeDocument } = useDocuments()
-    const { selectedSort, sortedList } = useSortedList(documents)
-    const { searchQuery, searchedAndSortedList } = useSearchedAndSortedList(sortedList)
-    return {
-      documents,
-      totalPages,
-      isPageLoading,
-      removeDocument,
-      selectedSort,
-      searchQuery,
-      searchedAndSortedList
-    }
-  }
-}
+const { documents, totalPages, isPageLoading, removeDocument } = useDocuments()
+const { selectedSort, sortedList } = useSortedList(documents)
+const { searchQuery, searchedAndSortedList } = useSearchedAndSortedList(sortedList)
 </script>
-
 
 <style scoped>
 .documents-list {

@@ -63,6 +63,9 @@ export default {
 }
 .document-title {
   padding-left: 25px;
+
+  overflow-wrap: break-word;
+  inline-size: 30em;
 }
 .document-controls {
   display: flex;
