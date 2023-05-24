@@ -6,7 +6,6 @@
       </div>
       <blue-pencil-button
         class="right-control edit-control short"
-        :short="true"
         @click="isItemEditable=!isItemEditable"
       />
     </template>
