@@ -81,9 +81,6 @@ const saveNewDocument = async () => {
         break;
     }
   });
-  console.log(updateSpecifications);
-  console.log(deleteSpecifications);
-  console.log(createSpecifications);
   await saveDocumentFull({
     updateSpecifications,
     deleteSpecifications,
@@ -91,11 +88,6 @@ const saveNewDocument = async () => {
   });
   await router.push('/');
 };
-
-// setInterval(() => {
-//   console.log(isDocumentLoading.value);
-//   console.log(isSpecificationsLoading.value);
-// }, 500);
 </script>
 
 <style scoped>

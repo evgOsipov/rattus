@@ -2,6 +2,9 @@
   <div
       class="reports"
   >
+    <main-header
+      v-model:query="searchQuery"
+    />
     <div
         class="reports-list"
         v-if="!isPageLoading"
@@ -25,33 +28,36 @@
     <loading
         v-else
     />
+    <teleport to="footer">
+      <div
+        v-intersection="increasePage"
+        class="intersection-block"
+      >
+      </div>
+
+    </teleport>
   </div>
 </template>
 
-<script>
-import ReportItem from '@/components/reports/ReportItem'
-import Loading from '@/components/Loading'
-import EmptyList from '@/components/EmptyList'
+<script setup lang="ts">
+import ReportItem from '@/components/reports/ReportItem.vue'
+import Loading from '@/components/Loading.vue'
+import EmptyList from '@/components/EmptyList.vue'
+import MainHeader from '@/components/MainHeader.vue'
 import { useReports } from '@/hooks/reports/useReports'
 import { useSortedList } from '@/hooks/useSortedList'
 import { useSearchedAndSortedList } from '@/hooks/useSearchedAndSortedList'
+import { usePagination } from '@/hooks/usePagination';
+import { vIntersection } from '@/directives/VIntersection';
 
-export default {
-  name: 'ReportsList',
-  components: { ReportItem, Loading, EmptyList },
-  setup () {
-    const { reports, totalPages, isPageLoading, removeReport } = useReports()
-    const { selectedSort, sortedList } = useSortedList(reports)
-    const { searchQuery, searchedAndSortedList } = useSearchedAndSortedList(sortedList)
-    return {
-      reports,
-      totalPages,
-      isPageLoading,
-      removeReport,
-      selectedSort,
-      searchQuery,
-      searchedAndSortedList
-    }
+const { reports, totalPages, isPageLoading, removeReport } = useReports()
+const { selectedSort, sortedList } = useSortedList(reports)
+const { searchQuery, searchedAndSortedList } = useSearchedAndSortedList(sortedList)
+const { page, entities } = usePagination(searchedAndSortedList);
+
+const increasePage = () => {
+  if(entities.value.length < searchedAndSortedList.value.length) {
+    page.value++;
   }
 }
 </script>

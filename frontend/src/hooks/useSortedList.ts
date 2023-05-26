@@ -13,3 +13,4 @@ export function useSortedList(list: Ref<Array<IDocument | IReport>>) {
         sortedList,
     }
 }
+

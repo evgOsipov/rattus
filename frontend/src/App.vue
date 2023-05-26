@@ -11,13 +11,8 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import AppHeader from '@/components/AppHeader.vue';
-import MainPage from '@/pages/MainPage.vue';
-
-export default {
-  components: { AppHeader, MainPage },
-};
 </script>
 
 <style>
